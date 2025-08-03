@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply font-modam;
+}
+
+:root {
+  --background: #D7EBC1;
+  --sidebar: #69BA3B;
+  --box: #E8F5E0;
+  --text: #344D19;
+}
+@keyframes bounce-left {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-30px);
+  }
+}
+
+@keyframes bounce-down {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(10px);
+  }
+}
+
+.animate-bounce-left {
+  animation: bounce-left 1s infinite;
+}
+
+.animate-bounce-down {
+  animation: bounce-down 1s infinite;
+}
