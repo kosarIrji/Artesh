@@ -5,21 +5,16 @@ import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import{GalleryHorizontal}from"lucide-react"
 
 const images = [
-  "./images/img(1).jpg",
-  "./images/img(2).jpg",
-  "./images/img(3).jpg",
-  "./images/img(4).jpg",
-  "./images/img(5).jpg",
-  "./images/img(6).jpg",
-  "./images/img(7).jpg",
-  "./images/img(14).jpg",
-  "./images/img(15).jpg",
-  "./images/img(8).jpg",
-  "./images/img(9).jpg",
-  "./images/img(10).jpg",
-  "./images/img(11).jpg",
-  "./images/img(12).jpg",
-  "./images/img(13).jpg"
+  "./images/img (1).jpg",
+  "./images/img (2).jpg",
+  "./images/img (3).jpg",
+  "./images/img (4).jpg",
+  "./images/img (5).jpg",
+  "./images/img (6).jpg",
+  "./images/img (7).jpg",
+  "./images/img (10).jpg",
+  "./images/img (11).jpg",
+  "./images/img (12).jpg",
 ];
 
 export default function ImageGallery() {
@@ -32,9 +27,9 @@ export default function ImageGallery() {
     setSelectedIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
 
   return (
-    <section className="relative my-5 bg-white/50 p-5 backdrop-blur-sm rounded-2xl shadow-lg px-3  border ">
-      <div className="flex justify-center ">
-        <h2 className="absolute text-3xl sm:text-2xl p-5  w-full flex flex-row-reverse aling-centeritems-center text-right justify-end gap-2  font-modam font-extrabold   text-[var(--text)] mb-4 leading-snug ">
+    <section className="relative  bg-white/50 px-5 backdrop-blur-sm rounded-2xl shadow-lg   border ">
+      <div className="flex justify-center mb-5 ">
+        <h2 className="absolute text-2xl p-5  w-full flex flex-row-reverse aling-centeritems-center text-right justify-end gap-2  font-modam font-extrabold   text-[var(--text)] mb-4 leading-snug ">
         گالری تصاویر <GalleryHorizontal size={28}/>   
         </h2>
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-5 lg:grid-cols-4 xl:grid-cols-4 gap-4 mt-20">
@@ -51,7 +46,6 @@ export default function ImageGallery() {
             >
               <img
                 src={src}
-                loading="lazy"
                 alt={`img-${index}`}
                 className="w-full h-[200px] lg:h-[180px] md:h-[220px]  object-cover transition-all duration-300 rounded-xl"
               />
@@ -71,21 +65,22 @@ export default function ImageGallery() {
           >
             <button
               onClick={handleClose}
-              className="absolute top-4  text-[var(--text)] bg-white/30 bg-opacity-50 p-2 rounded-full md:justify-center"
+              className="absolute top-4  text-[var(--text)] bg-white/50 bg-opacity-50 p-2 rounded-full md:justify-center"
             >
               <X size={24} />
             </button>
             <button
               onClick={showPrev}
-              className="absolute left-4 text-[var(--text)] bg-white/30 bg-opacity-50 p-2 rounded-full"
+              className="absolute left-4 text-[var(--text)] bg-white/50 bg-opacity-50 p-2 rounded-full"
             >
               <ChevronLeft size={32} />
             </button>
             <motion.img
+             loading="lazy"
               key={selectedIndex}
               src={images[selectedIndex]}
               alt="full"
-              className="max-w-xl max-h-[50vh] object-contain rounded-lg shadow-lg"
+              className="max-w-xl lg:max-h-[50vh]object-contain max-h-[300px] w-[100%]  rounded-lg shadow-lg"
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
@@ -93,7 +88,7 @@ export default function ImageGallery() {
             />
             <button
               onClick={showNext}
-              className="absolute md:right-50 text-[var(--text)] bg-white/30 bg-opacity-50 p-2 rounded-full right-4"
+              className="absolute md:right-50 right-4 text-[var(--text)] bg-white/50 bg-opacity-50 p-2 rounded-full "
             >
               <ChevronRight size={32} />
             </button>

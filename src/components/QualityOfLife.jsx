@@ -1,66 +1,102 @@
 /* eslint-disable no-unused-vars */
 import { motion } from "framer-motion";
-import QualityOfLifeChart from "./QualityOfLifeChart";
+import QualityOfLifeChart from "../components/charts/QualityOfLifeChart";
 import { Heart } from "lucide-react";
 import Details from "../components/config/details.json";
+import Accordion from "../components/ui/Accordion";
 
 export default function QualityOfLife() {
-  const data = [
-    [90, 86, 100, 94, 96],//artesh,
-    [100, 100, 80, 97, 84], //dochenar
-    [96, 93, 95, 91, 98], //jomhori
-    [93, 91, 96, 98, 90], //میرزاکوچکخان
-    [93, 93, 96, 96, 91], //bsij
-    [90, 89, 95, 93, 93], //کوی معلم
-    [88, 86, 100, 94, 88], //bolvar
-    [82, 81, 88, 89, 79], //mosala
+ const data = [
+    [92, 99, 96, 88, 88, 88], //dehkhoda
+    [88, 86, 100, 91, 78, 83], //bolvar
+    [89, 80, 60, 84, 81, 85], //seyedi
+    [96, 99, 75, 98, 68, 73], //17شهریور
+    [86, 94, 70, 95, 88, 73], //میرزاکوچکخان
+    [50, 94, 35, 40, 30, 40], //shahidbeheshti
+    [87, 98, 30, 90, 63, 38], //jajarmi
+    [83, 90, 81, 73, 75, 73], //hoseinymasoom
+    [86, 88, 50, 88, 76, 48], //shariati ];
+    [88, 90, 46, 89,82,30], //dochenar
+    [80, 81, 42, 80, 69, 52], //chamran
+    [94, 85, 84, 88, 93, 90], //artesh
+    [96, 94, 96, 89, 84, 59], //bsij
+    [96, 90, 75, 91, 88, 80], //jomhori
+    [85, 82, 90, 82, 92, 90], //کوی معلم
+    [82, 80, 50, 89, 77, 72], //mosala
   ];
-
-  //     "سرزندگی اجتماعی",
-  //     "دسترسی به خدمات شهری",
-  //     "فضای سبز و آرامش",
-  //     "امنیت",
-  //     "کیفیت کالبدی محله",
+  //   4  "سرزندگی اجتماعی",
+  //    2 "دسترسی به خدمات شهری",
+  //  6   "فضای سبز و آرامش",
+  //   3  "امنیت",
+  //    5 "کیفیت کالبدی محله",
+  // 1 ترافیک
 
   const names = [
-    "ارتش",
-    "دوچنار",
-    "جمهوری",
-    "میرزاکوچکخان",
-    "بسیج",
-    "کوی معلم",
+    "دهخدا",
     "بلوار",
+    "سیدی",
+    "17شهریور",
+    "میرزاکوچک خان",
+    "شهید بهشتی",
+    "جاجرمی",
+    "حسینی معصوم",
+    "شریعتی",
+    "دوچنار",
+    "چمران",
+    "ارتش",
+    "بسیج",
+    "جمهوری",
+    "کوی معلم",
     "مصلی",
   ];
   return (
     <section className="">
-      <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
+      <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-3 mt-3">
         {/* Box for text */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="relative border bg-white/50 backdrop-blur-md rounded-2xl shadow-md p-5  col-span-2 md:col-span-1  h-[100%]"
+          className="relative border bg-white/50 backdrop-blur-md rounded-2xl shadow-md p-5  col-span-2 lg:col-span-1  h-[100%]"
         >
-          <h3 className="text-3xl sm:text-2xl   w-full flex flex-row-reverse aling-centeritems-center text-right justify-end gap-2  font-modam font-extrabold   text-[var(--text)]  leading-snug ">
+          <h3 className="text-2xl   w-full flex flex-row-reverse aling-centeritems-center text-right justify-end gap-2  font-modam font-extrabold   text-[var(--text)]  leading-snug ">
             کیفیت زندگی محله {Details.alley.name}
             <Heart size={28} />
           </h3>
-          <p className="md:leading-loose whitespace-pre-line lg:leading-loose font-modam  text-justify text-base  mb-4">
-            {Details.overallAnalysis}
-            <br />
-            🔐 امنیت :{Details.qualities.security}
-            <br />
-            🚍دسترسی به خدمات : {Details.qualities.accessability}
-            <br />
-            🌱فضای سبز و آرامش :{Details.qualities.greenSpace}
-            <br />
-            🎉 سرزندگی اجتماعی : {Details.qualities.vitality}
-            <br />
-            🏡کیفیت کالبدی محله : {Details.qualities.quality}
-            <br />
-            🚦ترافیک :{Details.qualities.trafic}
-          </p>
+          <p className="lg:leading-loose  font-modam  text-justify text-base mb-6  "></p>
+          <Accordion
+            title=" 🔐  امنیت"
+            content="دید مناسب به خیابان _ کاربری‌های فعال در طول شبانه‌روز _ حضور افراد در ساعات مختلف شبانه‌روز _ روشنایی مطلوب در محله _ وجود دوربین‌های مداربسته متعدد و روشنایی حاصل از مغازه‌ها _ نرخ پایین جرم و جنایت _ وجود گوشه‌های خلوت و زمین‌های خالی در محله"
+            defaultOpen={false}
+          />
+          <Accordion
+            title="	 🏪  دسترسی به خدمات  "
+            content="فاصله کم تا مراکز درمانی _ دسترسی به مراکز آموزشی _ عدم دسترسی مناسب به مسجد _ دسترسی پیاده به ایستگاه اتوبوس _ نزدیکی به بازار و مرکز شهر"
+            defaultOpen={false}
+          />{" "}
+          <Accordion
+            title=" 🌱 فضای سبز و آرامش  "
+            content="درخت‌کاری و محوطه‌آرایی خیابان‌ها و معابر _ وجود پارک در محله _ فضای سبز حاشیه‌ای در معابر _ وجود آلودگی صوتی"
+            defaultOpen={false}
+          />{" "}
+          <Accordion
+            title=" 	🤝  سرزندگی اجتماعی "
+            content={
+              "وجود فرهنگسرا به‌عنوان مکانی برای تعاملات اجتماعی و فعالیت‌های فرهنگی _ برگزاری بازارچه، جشن و وجود زمین بازی کودکان _ وجود کتابخانه مرکزی در نزدیکی محله _ وجود کافه، رستوران، باشگاه و امکانات تفریحی"
+            }
+            defaultOpen={false}
+          />{" "}
+          <Accordion
+            title=" 🏡 کیفیت کالبدی محله "
+            content=" نوساز بودن بخش زیادی از ساختمان‌ها با استحکام و نمای مناسب _ کیفیت مطلوب معابر _ وجود پارکینگ _ زیرساخت قوی شامل آب، برق، فاضلاب، اینترنت و…"
+            defaultOpen={false}
+          />{" "}
+          <Accordion
+            title="
+              🚦 ترافیک  "
+            content="عرض مناسب معابر _ یک‌طرفه بودن معابر امامی و شریعتی شمالی _ نقش فعال در شبکه دسترسی _ ترافیک در ساعات اوج _ دسترسی به حمل‌ونقل عمومی"
+            defaultOpen={false}
+          />
         </motion.div>
 
         {/* Box for chart */}
@@ -68,7 +104,7 @@ export default function QualityOfLife() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="col-span-2 md:col-span-1  h-full"
+          className="col-span-2 lg:col-span-1  h-full"
         >
           <QualityOfLifeChart dataValues={data} names={names} />
         </motion.div>

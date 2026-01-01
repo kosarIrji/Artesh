@@ -16,6 +16,7 @@ const QualityOfLifeChart = ({ dataValues, names }) => {
     "فضای سبز و آرامش",
     "امنیت",
     "کیفیت کالبدی محله",
+    "ترافیک",
   ];
 
   const colors = [
@@ -26,6 +27,13 @@ const QualityOfLifeChart = ({ dataValues, names }) => {
     "#76b7b2",
     "#edc948",
     "#b07aa1",
+    "#1BA493",
+    "#287271",
+    "#F4A261",
+    "#42047E",
+   
+
+    "#1a2e22",
   ];
 
   const chartData = labels.map((label, i) => {
@@ -83,18 +91,19 @@ const QualityOfLifeChart = ({ dataValues, names }) => {
   };
 
   return (
-    <div className="w-full h-full  mx-auto bg-white/50 backdrop-blur-md rounded-2xl shadow-xl p-6 flex flex-col items-center">
-      <h2 className="text-xl md:text-2xl font-extrabold text-[var(--text)] text-center">
+    <div className="w-full h-full   mx-auto bg-white/50 backdrop-blur-md rounded-2xl shadow-xl p-6 g flex flex-col items-center">
+      <h2 className="text-xl  md:text-2xl font-extrabold text-[var(--text)] text-center">
         مقایسه کیفیت زندگی در محله‌ها
       </h2>
-      <ResponsiveContainer width="100%" height={700}>
-        <RadarChart cx="50%" cy="50%" outerRadius="85%" data={chartData}>
+      <ResponsiveContainer width="100%" height={450}>
+        <RadarChart cx="50%" cy="45%" outerRadius="90%" data={chartData}>
           <PolarGrid stroke="#ccc" />
           <PolarAngleAxis dataKey="subject" tick={renderCustomTick} />
           <PolarRadiusAxis
             angle={30}
             domain={[0, 100]}
-            tick={{ fontSize: 9 }}
+            tick={{ fontSize: 9, fontWeight: 9 }}
+            textAnchor="end"
           />
           {names.map((name, index) => (
             <Radar
@@ -108,6 +117,7 @@ const QualityOfLifeChart = ({ dataValues, names }) => {
             />
           ))}
           <Tooltip content={<CustomTooltip />} />
+
           <Legend wrapperStyle={{ fontSize: 14, marginTop: 10 }} />
         </RadarChart>
       </ResponsiveContainer>

@@ -1,3 +1,5 @@
+// فایل GhedmatChart.jsx
+
 import React, { useEffect, useState } from "react";
 import * as XLSX from "xlsx";
 import {
@@ -17,38 +19,37 @@ import {
 } from "recharts";
 
 const COLORS = [
-  "#4e79a7",
-  "#f28e2b",
-  "#e15759",
-  "#76b7b2",
-  "#59a14f",
-  "#edc948",
-  "#b07aa1",
+  "#E76F51",
+  "#EE8959",
+  "#F4A261",
+  "#E9C46A",
+  "#2A9D8F",
+  "#287271",
+  "#264653",
 ];
 
-export default function EnhancedFloorChart({ chartType }) {
+export default function GhedmatChartSelector({chartType}) {
   const [data, setData] = useState([]);
-
+  
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const loadExcel = async () => {
       try {
-        const response = await fetch("./data/tdad_tbqe.xlsx");
+        const response = await fetch("./data/qdmt.xlsx"); // مسیر فایل قدمت
         if (!response.ok) throw new Error("خطا در دریافت فایل");
 
         const blob = await response.blob();
         const arrayBuffer = await blob.arrayBuffer();
         const workbook = XLSX.read(arrayBuffer, { type: "array" });
 
-        const sheetName = workbook.SheetNames[0];
-        const worksheet = workbook.Sheets[sheetName];
+        const worksheet = workbook.Sheets[workbook.SheetNames[0]];
         const jsonData = XLSX.utils.sheet_to_json(worksheet);
 
         const chartData = jsonData
           .map((row) => ({
-            name: String(row["طبقه"] ?? "نامشخص"),
-            تعداد: Number(row["تعداد"] ?? 0),
+            name: row["قدمت"]?.toString().trim() || "نامشخص",
+            تعداد: Number(row["تعداد"]) || 0,
           }))
           .filter((item) => !isNaN(item.تعداد));
 
@@ -72,7 +73,10 @@ export default function EnhancedFloorChart({ chartType }) {
     switch (chartType) {
       case "bar":
         return (
-          <BarChart data={data} margin={{ top: 20, bottom: 10 ,left:20 }}>
+          <BarChart
+            data={data}
+            margin={{ top: 10, right: 30, left: 30, bottom: 10 }}
+          >
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis
               dataKey="name"
@@ -81,19 +85,19 @@ export default function EnhancedFloorChart({ chartType }) {
               interval={0}
               height={60}
             />
-            <YAxis  width={10}  tick={{ textAnchor: "satrt", fontSize: 13 }} />
+            <YAxis width={10} tick={{ textAnchor: "satrt", fontSize: 13 }} />
             <Tooltip
               contentStyle={{
                 fontFamily: "Modam",
-                direction: "ltr",
-                textAlign: "left",
+                direction: "rtl",
+                textAlign: "right",
               }}
               formatter={(value) => [`${value} واحد`, "تعداد"]}
             />
-            <Legend layout="horizontal" verticalAlign="bottom"  />
+            <Legend wrapperStyle={{ direction: "rtl",paddingTop:"10px" }} />
             <Bar
               dataKey="تعداد"
-              name="تعداد واحدها"
+              name="تعداد ساختمان‌ها"
               barSize={25}
               radius={[4, 4, 0, 0]}
             >
@@ -108,7 +112,10 @@ export default function EnhancedFloorChart({ chartType }) {
         );
       case "line":
         return (
-          <LineChart data={data} margin={{ top: 20, bottom: 10, left: 20 }}>
+          <LineChart
+            data={data}
+            margin={{  top: 10, bottom: 10 ,left:20,right:20,}}
+          >
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis
               dataKey="name"
@@ -130,8 +137,8 @@ export default function EnhancedFloorChart({ chartType }) {
             <Line
               type="monotone"
               dataKey="تعداد"
-              name="تعداد واحدها"
-              stroke="var(--sidebar)"
+              name="تعداد ساختمان‌ها"
+              stroke="var(--text)"
               strokeWidth={2}
               dot={{ r: 4 }}
               activeDot={{ r: 6 }}
@@ -149,7 +156,7 @@ export default function EnhancedFloorChart({ chartType }) {
               fill="#8884d8"
               dataKey="تعداد"
               nameKey="name"
-              label
+              label // حذف برچسب‌های داخل دایره
             >
               {data.map((entry, index) => (
                 <Cell
@@ -159,18 +166,14 @@ export default function EnhancedFloorChart({ chartType }) {
               ))}
             </Pie>
             <Tooltip
-              formatter={(value) => `${value} واحد`}
               contentStyle={{
                 fontFamily: "Modam",
                 direction: "rtl",
                 textAlign: "right",
               }}
+              formatter={(value) => `${value} واحد`}
             />
-            <Legend
-              wrapperStyle={{ direction: "rtl" }}
-              layout="horizontal"
-              verticalAlign="bottom"
-            />
+            <Legend wrapperStyle={{ direction: "rtl" }} />
           </PieChart>
         );
       default:
@@ -179,56 +182,21 @@ export default function EnhancedFloorChart({ chartType }) {
   };
 
   return (
-    <div className="chart-container w-full">
+    <div className="chart-containe  w-full ">
       <div className="chart-header ">
-        <h2 className="chart-title">نمودار اطلاعات طبقات</h2>
+       
+        <h2 className="text-lg font-bold text-[var(--text)] mb-5 mt-5 text-center" >نمودار قدمت ساختمان‌ها</h2>
       </div>
 
       {loading ? (
         <div className="loading-message">در حال بارگذاری داده‌ها...</div>
       ) : (
-        <div className="chart-wrapper">
-          <ResponsiveContainer width="100%" height={400}>
-            {renderChart()}
-          </ResponsiveContainer>
-        </div>
+        <ResponsiveContainer width="100%" height={350}>
+          {renderChart()}
+        </ResponsiveContainer>
       )}
-
-      <style jsx>{`
-        .chart-container {
-          font-family: "Modam", Tahoma, sans-serif;
-          direction: lrt;
-          background-color: [#FFF6EB];
-        }
-
-        .chart-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 20px;
-          gap: 15px;
-        }
-
-        .chart-title {
-          font-size: 1.25rem;
-          font-weight: 600;
-          color: var(--text);
-          margin-right: 1rem;
-        }
-
-        .loading-message,
-        .no-data-message {
-          text-align: center;
-          padding: 40px;
-          color: #666;
-          font-size: 16px;
-        }
-
-        .chart-wrapper {
-          margin-top: 20px;
-          width: 100%;
-        }
-      `}</style>
+      
+      
     </div>
   );
 }

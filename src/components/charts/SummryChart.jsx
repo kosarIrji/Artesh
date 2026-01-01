@@ -1,19 +1,12 @@
 import React from "react";
 /* eslint-disable no-unused-vars */
 import { motion } from "framer-motion";
-
+import{ClipboardCheck}from "lucide-react"
 import { ShieldCheck, WarningOctagon, TrendUp, Skull } from "phosphor-react";
-import Details from "../components/config/details.json";
+import Details from "../config/details.json";
 
 // ستون‌ها با آیکون حرفه‌ای
 const columnTitles = [
-  {
-    key: "weaknesses",
-    label: "نقاط ضعف",
-    bg: "bg-red-600",
-    text: "text-white",
-    icon: WarningOctagon,
-  },
   {
     key: "strengths",
     label: "نقاط قوت",
@@ -27,6 +20,13 @@ const columnTitles = [
     bg: "bg-blue-600",
     text: "text-white",
     icon: TrendUp,
+  },
+  {
+    key: "weaknesses",
+    label: "نقاط ضعف",
+    bg: "bg-red-600",
+    text: "text-white",
+    icon: WarningOctagon,
   },
   {
     key: "threats",
@@ -84,18 +84,18 @@ const TableSection = ({ columns, colCount }) => (
 // خروجی اصلی
 export default function SWOTSummary() {
   return (
-    <div className="space-y-4 w-full h-full p-3">
-      <h2 className="text-xl md:text-2xl font-extrabold text-[var(--text)] text-center">
-        جدول خلاصه تحلیل SWOT
+    <div className=" w-full h-full px-3">
+      <h2 className="text-2xl w-full flex flex-row-reverse items-center text-right justify-end gap-2 font-modam font-extrabold text-[var(--text)] mb-4 leading-snug">
+        جدول خلاصه تحلیل SWOT<ClipboardCheck size={28} />
       </h2>
 
       {/* دسکتاپ */}
-      <div className="hidden md:block">
+      <div className="hidden lg:block">
         <TableSection columns={columnTitles} colCount={4} />
       </div>
 
       {/* موبایل */}
-      <div className="block md:hidden space-y-6">
+      <div className="block lg:hidden space-y-6">
         <TableSection columns={columnTitles.slice(0, 2)} colCount={2} />
         <TableSection columns={columnTitles.slice(2, 4)} colCount={2} />
       </div>

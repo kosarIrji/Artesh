@@ -11,7 +11,7 @@ import {
   CartesianGrid,
   Legend,
 } from "recharts";
-const heighttt=window.innerWidth<924?280:430
+
 const colors = [
   "#FB8500",
   "#E63946",
@@ -28,7 +28,21 @@ const colors = [
 
 const AccsessesKyfiatMabar = () => {
   const [chartData, setChartData] = useState([]);
-
+  const CustomTooltip = ({ active, payload, label }) => {
+    if (active && payload && payload.length) {
+      const arz = label;
+      const tedad = payload[0].value;
+  
+      return (
+        <div className="bg-white/80 backdrop-blur-md p-2 rounded shadow text-base font-[Modam]">
+          <p>امتیاز معبر: {arz}</p>
+          <p>تعداد: {tedad}</p>
+        </div>
+      );
+    }
+  
+    return null;
+  };
   useEffect(() => {
     fetch("./data/keymabar.xlsx")
       .then((res) => res.arrayBuffer())
@@ -79,15 +93,15 @@ const AccsessesKyfiatMabar = () => {
 
   return (
     <div
-      className="rounded-2xl p-3 border  bg-white/50 backdrop-blur-md shadow-md h-full w-full font-modam text-lg"
+      className=" h-full w-full font-modam text-lg"
       style={{
-        width: "100%",
-        padding: "1rem",
+        width: "90%",
+        
         fontFamily: "Modam",
       }}
     >
       <h2
-        className="text-base mt-5 mb-4"
+        className="text-base mb-5 mt-5"
         style={{
           textAlign: "center",
           color: "var(--text)",
@@ -97,19 +111,22 @@ const AccsessesKyfiatMabar = () => {
         نمودار کیفیت معابر محله
       </h2>
 
-      <ResponsiveContainer width="100%" height={heighttt}>
+      <ResponsiveContainer width="110%" height={260} c>
         <BarChart data={chartData}>
           <XAxis
             textAnchor="start"
             interval={0}
-            height={40}
+            height={1}
+          
             type="number"
             domain={[0, 10]}
             ticks={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
             dataKey="bin"
-            tick={{ fontSize: 13, fontFamily: "Modam" }}
+            tick={{ fontSize: 14, fontFamily: "Modam" }}
+            
           />
           <YAxis 
+              
             label={{
               value: "تعداد",
               angle: -90,
@@ -117,16 +134,16 @@ const AccsessesKyfiatMabar = () => {
               style: {
                 textAnchor: "start",
                 fontFamily: "Modam",
-                fontSize: 15,
+                fontSize: 14,
               },
             }}
             type="number"
             tick={{ fontSize: 14, fontFamily: "Modam" ,textAnchor: "satrt"}}
           />
-          <Tooltip wrapperStyle={{ fontFamily: "Modam" }} />
+          <Tooltip wrapperStyle={{ fontFamily: "Modam"}}  content={<CustomTooltip />}/>
           <Legend
             content={() => (
-              <div className="w-full text-center h-full">
+              <div className="w-full text-center h-full mt-5 ">
                 <span className="text-base ">امتیاز معبر</span>
               </div>
             )}
@@ -136,6 +153,7 @@ const AccsessesKyfiatMabar = () => {
               <Cell key={`cell-${index}`} fill={entry.color} />
             ))}
           </Bar>
+          
         </BarChart>
       </ResponsiveContainer>
     </div>

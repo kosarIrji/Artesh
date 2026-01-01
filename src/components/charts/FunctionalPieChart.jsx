@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import * as XLSX from "xlsx";
-import { Button } from "./ui/Button";
+import { Button } from "../ui/Button";
 import {
   PieChart,
   Pie,

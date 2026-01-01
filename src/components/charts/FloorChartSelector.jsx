@@ -17,24 +17,24 @@ import {
 } from "recharts";
 
 const COLORS = [
-  "#FF7073",
-  "#EA9E8D",
-  "#DBB3B1",
-  "#FFE085",
-  "#FED35D",
-  "#96E6B3",
-  "#73D3C9",
+  "#4e79a7",
+  "#f28e2b",
+  "#e15759",
+  "#76b7b2",
+  "#59a14f",
+  "#edc948",
+  "#b07aa1",
 ];
 
-export default function NamaChart({chartType}) {
+export default function EnhancedFloorChart({ chartType }) {
   const [data, setData] = useState([]);
- 
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const loadExcel = async () => {
       try {
-        const response = await fetch("./data/nama.xlsx");
+        const response = await fetch("./data/tdad_tbqe.xlsx");
         if (!response.ok) throw new Error("خطا در دریافت فایل");
 
         const blob = await response.blob();
@@ -47,8 +47,8 @@ export default function NamaChart({chartType}) {
 
         const chartData = jsonData
           .map((row) => ({
-            name: row["نما"] || "نامشخص",
-            تعداد: Number(row["تعداد"]) || 0,
+            name: String(row["طبقه"] ?? "نامشخص"),
+            تعداد: Number(row["تعداد"] ?? 0),
           }))
           .filter((item) => !isNaN(item.تعداد));
 
@@ -72,10 +72,7 @@ export default function NamaChart({chartType}) {
     switch (chartType) {
       case "bar":
         return (
-          <BarChart
-            data={data}
-            margin={{ top: 20, bottom: 10 ,left:20}}
-          >
+          <BarChart data={data} margin={{ top: 10, bottom: 10 ,left:30,right:30 }}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis
               dataKey="name"
@@ -84,12 +81,19 @@ export default function NamaChart({chartType}) {
               interval={0}
               height={60}
             />
-            <YAxis width={10} tick={{ textAnchor: "satrt", fontSize: 13 }} />
-            <Tooltip formatter={(value) => [`${value} عدد`, "تعداد"]} />
-            <Legend layout="horizontal" verticalAlign="bottom" />
+            <YAxis  width={10}  tick={{ textAnchor: "satrt", fontSize: 13 }} />
+            <Tooltip
+              contentStyle={{
+                fontFamily: "Modam",
+                direction: "ltr",
+                textAlign: "left",
+              }}
+              formatter={(value) => [`${value} واحد`, "تعداد"]}
+            />
+            <Legend layout="horizontal" verticalAlign="bottom"  />
             <Bar
               dataKey="تعداد"
-              name="تعداد نماها"
+              name="تعداد واحدها"
               barSize={25}
               radius={[4, 4, 0, 0]}
             >
@@ -104,26 +108,33 @@ export default function NamaChart({chartType}) {
         );
       case "line":
         return (
-          <LineChart
-            data={data}
-         margin={{ top: 20, bottom: 10 ,left:20}}>
+          <LineChart data={data} margin={{ top: 10, bottom: 10, left: 20,right:20, }}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis
               dataKey="name"
               angle={-45}
-              textAnchor="satrt"
+              textAnchor="start"
               interval={0}
               height={80}
             />
             <YAxis width={10} tick={{ textAnchor: "satrt", fontSize: 13 }} />
-            <Tooltip formatter={(value) => [`${value} عدد`, "تعداد"]} />
-            <Legend layout="horizontal" verticalAlign="bottom" />
+            <Tooltip
+              contentStyle={{
+                fontFamily: "Modam",
+                direction: "rtl",
+                textAlign: "right",
+              }}
+              formatter={(value) => [`${value} واحد`, "تعداد"]}
+            />
+            <Legend wrapperStyle={{ direction: "rtl" ,paddingTop:"10px"}} />
             <Line
               type="monotone"
               dataKey="تعداد"
-              name="تعداد نماها"
-              stroke="var(--sidebar)"
+              name="تعداد واحدها"
+              stroke="var(--text)"
               strokeWidth={2}
+              dot={{ r: 4 }}
+              activeDot={{ r: 6 }}
             />
           </LineChart>
         );
@@ -135,6 +146,7 @@ export default function NamaChart({chartType}) {
               cx="50%"
               cy="50%"
               outerRadius={100}
+              fill="#8884d8"
               dataKey="تعداد"
               nameKey="name"
               label
@@ -146,11 +158,18 @@ export default function NamaChart({chartType}) {
                 />
               ))}
             </Pie>
-            <Tooltip formatter={(value) => `${value} عدد`} />
+            <Tooltip
+              formatter={(value) => `${value} واحد`}
+              contentStyle={{
+                fontFamily: "Modam",
+                direction: "rtl",
+                textAlign: "right",
+              }}
+            />
             <Legend
+              wrapperStyle={{ direction: "rtl" }}
               layout="horizontal"
               verticalAlign="bottom"
-              fontFamily="Modam"
             />
           </PieChart>
         );
@@ -160,58 +179,22 @@ export default function NamaChart({chartType}) {
   };
 
   return (
-    <div className="chart-container w-full ">
+    <div className="chart-container w-full">
       <div className="chart-header ">
-       
-        <h2 className="chart-title">نمودار توزیع نماها</h2>
+        <h2 className="text-lg font-bold text-[var(--text)] mb-5 mt-5 text-center">نمودار اطلاعات طبقات</h2>
       </div>
 
       {loading ? (
         <div className="loading-message">در حال بارگذاری داده‌ها...</div>
       ) : (
         <div className="chart-wrapper">
-          <ResponsiveContainer width="100%" height={400}>
+          <ResponsiveContainer width="100%" height={350}>
             {renderChart()}
           </ResponsiveContainer>
         </div>
       )}
-      <style jsx>{`
-        .chart-container {
-          font-family: "Modam", Tahoma, sans-serif;
-          direction: rtl;
-          background-color: [#FFF6EB];
-        }
 
-        .chart-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          gap: 15px;
-          
-        }
-
-        .chart-title {
-          font-size: 1.25rem;
-          font-weight: 600;
-          color: var(--text);
-          margin-right: 1rem;
-        }
-
-       
       
-
-        .loading-message,
-        .no-data-message {
-          text-align: center;
-          padding: 40px;
-          color: #666;
-          font-size: 16px;
-        }
-
-        .chart-wrapper {
-          width: 100%;
-        }
-      `}</style>
     </div>
   );
 }
